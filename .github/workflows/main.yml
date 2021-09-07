@@ -32,8 +32,8 @@ jobs:
           pip install line-bot-sdk
       - name: Run script
         env:
-          CHANNEL_ACCESS_TOKEN: ${{ ACCESS_TOKEN }}
-          USER_ID: ${{ USER_ID }}
+          ACCESSTOKEN: ${{ ACCESS_TOKEN }}
+          USERID: ${{ USER_ID }}
         run: |
           # main.pyの実行
           python push_message.py
