@@ -2,11 +2,14 @@ from linebot import LineBotApi
 from linebot.models import TextSendMessage,TemplateSendMessage,ConfirmTemplate,MessageAction
 from linebot.exceptions import LineBotApiError
 
+import os
 import schedule
 import time
 
 import json
 
+ACCESSTOKEN = os.environ.get("ACCESSTOKEN")
+USERID = os.environ.get("USERID")
 line_bot_api = LineBotApi(ACCESSTOKEN)
 
 def main():
