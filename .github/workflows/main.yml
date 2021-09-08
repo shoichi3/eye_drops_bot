@@ -36,4 +36,4 @@ jobs:
           USERID: ${{ secrets.USER_ID }}
         run: |
           # main.pyの実行
-          python push_message.py
+          python bot/eye_drops/notification_bot/push_message.py
