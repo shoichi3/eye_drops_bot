@@ -8,6 +8,9 @@ name: push_message
 on:
   schedule:
   - cron: '0 21 * * *'
+  - cron: '0 5 * * *'
+  - cron: '0 8 * * *'
+  - cron: '0 12 * * *'
 
 jobs:
   build:
