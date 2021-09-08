@@ -30,6 +30,7 @@ jobs:
           python -m pip install --upgrade pip
           # 必要なパッケージインストール
           pip install line-bot-sdk
+          pip install schedule
       - name: Run script
         env:
           ACCESSTOKEN: ${{ secrets.ACCESS_TOKEN }}
