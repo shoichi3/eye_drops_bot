@@ -6,10 +6,6 @@ import schedule
 import time
 
 import json
-with open('../../lineapi.json') as line:
-    line_api_json = json.load(line)
-ACCESSTOKEN = line_api_json['ACCESSTOKEN']
-USERID = line_api_json['USERID']
 
 line_bot_api = LineBotApi(ACCESSTOKEN)
 
