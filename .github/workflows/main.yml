@@ -32,7 +32,7 @@ jobs:
           pip install line-bot-sdk
       - name: Run script
         env:
-          ACCESSTOKEN: ${{ ACCESS_TOKEN }}
+          ACCESSTOKEN: ${{ secrets.ACCESS_TOKEN }}
           USERID: ${{ USER_ID }}
         run: |
           # main.pyの実行
