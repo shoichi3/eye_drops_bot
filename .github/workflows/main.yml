@@ -33,7 +33,7 @@ jobs:
       - name: Run script
         env:
           ACCESSTOKEN: ${{ secrets.ACCESS_TOKEN }}
-          USERID: ${{ USER_ID }}
+          USERID: ${{ secrets.USER_ID }}
         run: |
           # main.pyの実行
           python push_message.py
