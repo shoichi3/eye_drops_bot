@@ -18,9 +18,9 @@ from django.urls import path
 from django.http import HttpResponse
 
 import json
-with open('../lineapi.json') as line:
-    line_api_json = json.load(line)
-ACCESSTOKEN = line_api_json['ACCESSTOKEN']
+# with open('../lineapi.json') as line:
+#     line_api_json = json.load(line)
+# ACCESSTOKEN = line_api_json['ACCESSTOKEN']
 
 from django.views.decorators.csrf import csrf_exempt
 from linebot import LineBotApi
