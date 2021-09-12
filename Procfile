@@ -1,1 +1,1 @@
-web: gunicorn eye_drops.wsgi --log-file -
+web: gunicorn eye_drops/eye_drops.wsgi --log-file -
