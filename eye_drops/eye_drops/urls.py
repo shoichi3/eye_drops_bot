@@ -18,6 +18,7 @@ from django.urls import path
 from django.http import HttpResponse
 
 import json
+import os
 
 from django.views.decorators.csrf import csrf_exempt
 from linebot import LineBotApi
@@ -30,7 +31,7 @@ def callback(request):
     sent_json = json.loads(request.body)
     text = sent_json['events'][0]['message']['text']
     reply_token = sent_json['events'][0]['replyToken']
-    line_bot_api = LineBotApi(ACCESSTOKEN)
+    line_bot_api = LineBotApi(os.environ['ACCESSTOKEN'])
     
     confirm_template_message1 = TemplateSendMessage(
                                 alt_text='Confirm template',
