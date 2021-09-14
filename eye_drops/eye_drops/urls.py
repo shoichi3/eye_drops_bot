@@ -34,7 +34,7 @@ def callback(request):
     line_bot_api = LineBotApi(os.environ['ACCESSTOKEN'])
     
     confirm_template_message1 = TemplateSendMessage(
-                                alt_text='Confirm template',
+                                alt_text='目薬の時間です',
                                 template=ConfirmTemplate(
                                     text='1つ目の目薬を打ちましたか？',
                                     actions=[
@@ -51,7 +51,7 @@ def callback(request):
                             )
     
     confirm_template_message2 = TemplateSendMessage(
-                                alt_text='Confirm template',
+                                alt_text='目薬の時間です',
                                 template=ConfirmTemplate(
                                     text='2つ目の目薬を打ちましたか？',
                                     actions=[

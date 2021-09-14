@@ -14,7 +14,7 @@ line_bot_api = LineBotApi(ACCESSTOKEN)
 
 def main():
   confirm_template_message1 = TemplateSendMessage(
-                                alt_text='Confirm template',
+                                alt_text='目薬の時間です',
                                 template=ConfirmTemplate(
                                     text='1つ目の目薬を打ちましたか？',
                                     actions=[
