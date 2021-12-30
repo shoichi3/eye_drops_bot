@@ -17,14 +17,18 @@ from django.contrib import admin
 from django.urls import path
 from django.http import HttpResponse
 
+import sys
+sys.path.append('../')
+import libraries
+
 import json
 import os
+import time
 
 from django.views.decorators.csrf import csrf_exempt
 from linebot import LineBotApi
 from linebot.models import TextSendMessage,TemplateSendMessage,ConfirmTemplate,MessageAction
 from linebot.exceptions import LineBotApiError
-
 
 @csrf_exempt
 def callback(request):
@@ -32,44 +36,15 @@ def callback(request):
     text = sent_json['events'][0]['message']['text']
     reply_token = sent_json['events'][0]['replyToken']
     line_bot_api = LineBotApi(os.environ['ACCESSTOKEN'])
-    
-    confirm_template_message1 = TemplateSendMessage(
-                                alt_text='目薬の時間です',
-                                template=ConfirmTemplate(
-                                    text='1つ目の目薬を打ちましたか？',
-                                    actions=[
-                                        MessageAction(
-                                            label='はい',
-                                            text='はい',
-                                        ),
-                                        MessageAction(
-                                            label='いいえ',
-                                            text='いいえ'
-                                        )
-                                    ]
-                                )
-                            )
-    
-    confirm_template_message2 = TemplateSendMessage(
-                                alt_text='目薬の時間です',
-                                template=ConfirmTemplate(
-                                    text='2つ目の目薬を打ちましたか？',
-                                    actions=[
-                                        MessageAction(
-                                            label='完了しました',  #LINEの画面で表示される言葉
-                                            text='完了しました',  #LINEからbotに送られる言葉
-                                        ),
-                                        MessageAction(
-                                            label='まだです',
-                                            text='まだです'
-                                        )
-                                    ]
-                                )
-                            )
+    USERID = os.environ.get("USERID")
+    confirm_template_message1 = libraries.push_message(1, "はい", "いいえ")
+    confirm_template_message2 = libraries.push_message(2, "完了しました", "まだです")
     
     try:
         if text == "はい":
-            line_bot_api.reply_message(reply_token, [TextSendMessage(text='お疲れさまです\n2つ目も忘れずに打ちましょう'), confirm_template_message2])
+            line_bot_api.reply_message(reply_token, TextSendMessage(text='お疲れさまです\n5分後に2つ目の目薬の通知をします'))
+            time.sleep(300)
+            line_bot_api.push_message(USERID, messages=confirm_template_message2)
         elif text == "いいえ":
             line_bot_api.reply_message(reply_token, confirm_template_message1)
         elif text == "完了しました":
