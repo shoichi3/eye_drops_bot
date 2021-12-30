@@ -36,7 +36,7 @@ def callback(request):
     text = sent_json['events'][0]['message']['text']
     reply_token = sent_json['events'][0]['replyToken']
     line_bot_api = LineBotApi(os.environ['ACCESSTOKEN'])
-    USERID = os.environ.get("USERID")
+    USERID = os.environ['USERID']
     confirm_template_message1 = libraries.push_message(1, "はい", "いいえ")
     confirm_template_message2 = libraries.push_message(2, "完了しました", "まだです")
     
