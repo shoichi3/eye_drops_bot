@@ -9,8 +9,8 @@ from linebot.exceptions import LineBotApiError
 import os
 import json
 
-#ACCESSTOKEN = os.environ.get("ACCESSTOKEN")
-#USERID = os.environ.get("USERID")
+ACCESSTOKEN = os.environ.get("ACCESSTOKEN")
+USERID = os.environ.get("USERID")
 line_bot_api = LineBotApi(ACCESSTOKEN)
 
 def main():
