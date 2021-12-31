@@ -3,7 +3,7 @@ from linebot.models import TemplateSendMessage,ConfirmTemplate,MessageAction
 from linebot.exceptions import LineBotApiError
 
 import sys
-sys.path.append('/line_bot/eye_drops/')
+sys.path.append('/line_bot/eye_drops/libraries.py')
 import libraries
 
 import os
