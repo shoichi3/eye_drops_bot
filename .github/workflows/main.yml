@@ -36,6 +36,7 @@ jobs:
       - name: Run script
         env:
           ACCESSTOKEN: ${{ secrets.ACCESS_TOKEN }}
+          echo: "${{ secrets.ACCESS_TOKEN }}"
           USERID: ${{ secrets.USER_ID }}
         run: |
           # main.pyの実行
