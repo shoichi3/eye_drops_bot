@@ -18,33 +18,50 @@ from django.urls import path
 from django.http import HttpResponse
 
 import sys
+#from eye_drops.notification_bot.push_message import ACCESSTOKEN
 sys.path.append('../')
 import libraries
 
 import json
 import os
 import time
+import datetime
+import schedule
 
 from django.views.decorators.csrf import csrf_exempt
 from linebot import LineBotApi
 from linebot.models import TextSendMessage,TemplateSendMessage,ConfirmTemplate,MessageAction
 from linebot.exceptions import LineBotApiError
 
+"""
+file = open('../lineapi.json', 'r')
+info = json.load(file)
+ACCESSTOKEN = info['ACCESSTOKEN']
+USERID = info['USERID']
+line_bot_api = LineBotApi(ACCESSTOKEN)
+"""
+line_bot_api = LineBotApi(os.environ['ACCESSTOKEN'])
+USERID = os.environ['USERID']
+
+confirm_template_message1 = libraries.push_message(1, "はい", "いいえ")
+confirm_template_message2 = libraries.push_message(2, "完了しました", "まだです")
+
 @csrf_exempt
 def callback(request):
     sent_json = json.loads(request.body)
+    timestamp = sent_json['events'][0]['timestamp']
+    print(timestamp)
+    timestamp = datetime.datetime.fromtimestamp(timestamp/1000)
+    hour = timestamp.hour
+    minutes = timestamp.minute
     text = sent_json['events'][0]['message']['text']
     reply_token = sent_json['events'][0]['replyToken']
-    line_bot_api = LineBotApi(os.environ['ACCESSTOKEN'])
-    USERID = os.environ['USERID']
-    confirm_template_message1 = libraries.push_message(1, "はい", "いいえ")
-    confirm_template_message2 = libraries.push_message(2, "完了しました", "まだです")
     
     try:
         if text == "はい":
             line_bot_api.reply_message(reply_token, TextSendMessage(text='お疲れさまです\n5分後に2つ目の目薬の通知をします'))
-            time.sleep(300)
-            line_bot_api.push_message(USERID, messages=confirm_template_message2)
+            timer(hour,minutes)
+            #line_bot_api.push_message(USERID, messages=confirm_template_message2)
         elif text == "いいえ":
             line_bot_api.reply_message(reply_token, confirm_template_message1)
         elif text == "完了しました":
@@ -60,3 +77,25 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('callback/', callback)
 ]
+
+def second_push_message():
+    line_bot_api.push_message(USERID, messages=confirm_template_message2)
+
+def timer(hour,minutes):
+    if minutes + 5 > 60:
+        b = (minutes + 5) % 60
+        if hour + 5 >= 24:
+            a = (hour + 1) % 24
+        else:
+            a = hour + 5
+    else:
+        a = hour
+        b = minutes + 5
+    schedule.every().day.at("{:02}:{}".format(a,b)).do(second_push_message)
+    while True:
+        n = schedule.idle_seconds()
+        if n is None:
+            break
+        elif n > 0:
+            time.sleep(n)
+        schedule.run_pending()
