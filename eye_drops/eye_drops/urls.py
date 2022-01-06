@@ -50,7 +50,6 @@ confirm_template_message2 = libraries.push_message(2, "完了しました", "ま
 def callback(request):
     sent_json = json.loads(request.body)
     timestamp = sent_json['events'][0]['timestamp']
-    print(timestamp)
     timestamp = datetime.datetime.fromtimestamp(timestamp/1000)
     hour = timestamp.hour
     minutes = timestamp.minute
